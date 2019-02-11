@@ -1,30 +1,21 @@
 package main;
 
 public class Student extends Human {
-	private int studentID;
 
-	public Student() {}
-	
-	public Student(int studentID) {
+	public Student() {
 		super();
-		this.studentID = studentID;
 	}
 
-	public int getStudentID() {
-		return studentID;
-	}
-
-	public void setStudentID(int studentID) {
-		this.studentID = studentID;
+	public Student(String firstName, String lastName, String patronymic, String gender, int age) {
+		super(firstName, lastName, patronymic, gender, age);
 	}
 
 	@Override
 	public String toString() {
-		return "Student [firstName" + this.getFirstName() 
+		return "Student [firstName=" + this.getFirstName() 
 		+ ", lastName=" + this.getLastName() 
 		+ ", patronymic=" + this.getPatronymic()
 		+ ", gender=" + this.getGender()
-		+ ", age=" + this.getAge()
-		+ ", studentID=" + studentID + "]";
+		+ ", age=" + this.getAge() + "]";
 	}
 }

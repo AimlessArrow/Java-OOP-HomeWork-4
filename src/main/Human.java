@@ -7,8 +7,10 @@ public class Human {
 	private String gender;
 	private int age;
 	
-	public Human() {}
-	
+	public Human() {
+		super();
+	}
+
 	public Human(String firstName, String lastName, String patronymic, String gender, int age) {
 		super();
 		this.firstName = firstName;
