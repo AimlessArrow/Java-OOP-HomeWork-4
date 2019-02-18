@@ -22,7 +22,7 @@ public class Main {
 		System.out.println(myGroup);
 		
 		try {
-			myGroup.inputStudent();
+			myGroup.inputStudentScanner();
 		} catch(overflowException e) {
 			System.out.println(e);
 		}
