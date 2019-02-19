@@ -1,6 +1,6 @@
 package main;
 
-public class Student extends Human {
+public class Student extends Human implements Comparable<Student> {
 
 	public Student() {
 		super();
@@ -12,10 +12,12 @@ public class Student extends Human {
 
 	@Override
 	public String toString() {
-		return "Student [firstName=" + this.getFirstName() 
-		+ ", lastName=" + this.getLastName() 
-		+ ", patronymic=" + this.getPatronymic()
-		+ ", gender=" + this.getGender()
-		+ ", age=" + this.getAge() + "]";
+		return "Student [firstName=" + this.getFirstName() + ", lastName=" + this.getLastName() + ", patronymic="
+				+ this.getPatronymic() + ", gender=" + this.getGender() + ", age=" + this.getAge() + "]";
+	}
+
+	@Override
+	public int compareTo(Student targetStudent) {
+		return this.getLastName().compareTo(targetStudent.getLastName());
 	}
 }

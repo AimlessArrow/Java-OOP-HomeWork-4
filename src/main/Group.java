@@ -83,7 +83,7 @@ public class Group {
 				nameArray.add(currentStudent.getLastName());
 			}
 		}
-
+		/*
 		Collections.sort(nameArray);
 		for (String name : nameArray) {
 			if (nameArray.indexOf(name) == (nameArray.size() - 1)) {
@@ -91,7 +91,20 @@ public class Group {
 			} else {
 				outputString += name + ", ";
 			}
-		}
+		}*/
+		String temp;
+	    boolean wasSwap = true;
+	    for (int index1 = 0; index1 < nameArray.length - 1 && wasSwap; ++index1) {
+	        wasSwap = false;
+	        for (int index2 = 0; index2 < nameArray.length - index1 - 1; ++index2) {
+	            if (nameArray[index2].compareToIgnoreCase(nameArray[index2+1]) > 0) {
+	                temp = nameArray[index2];
+	                nameArray[index2] = nameArray[index2+1];
+	                nameArray[index2+1] = temp;
+	                wasSwap = true;
+	            }
+	        }
+	    }
 
 		return outputString;
 	}
