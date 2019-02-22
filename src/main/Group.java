@@ -1,6 +1,6 @@
 package main;
 
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -74,102 +74,7 @@ public class Group {
 		return -1;
 	}
 
-	@Override
-	public String toString() {
-		String outputString = "studentGroup [";
-		ArrayList<String> nameArray = new ArrayList<String>();
-		for (Student currentStudent : this.studentGroup) {
-			if (currentStudent != null) {
-				nameArray.add(currentStudent.getLastName());
-			}
-		}
-		/*
-		Collections.sort(nameArray);
-		for (String name : nameArray) {
-			if (nameArray.indexOf(name) == (nameArray.size() - 1)) {
-				outputString += name + "]";
-			} else {
-				outputString += name + ", ";
-			}
-		}*/
-		String temp;
-	    boolean wasSwap = true;
-	    for (int index1 = 0; index1 < nameArray.length - 1 && wasSwap; ++index1) {
-	        wasSwap = false;
-	        for (int index2 = 0; index2 < nameArray.length - index1 - 1; ++index2) {
-	            if (nameArray[index2].compareToIgnoreCase(nameArray[index2+1]) > 0) {
-	                temp = nameArray[index2];
-	                nameArray[index2] = nameArray[index2+1];
-	                nameArray[index2+1] = temp;
-	                wasSwap = true;
-	            }
-	        }
-	    }
-
-		return outputString;
-	}
-
-	public void inputStudentSwing() throws overflowException {
-		String firstName = "";
-		String lastName = "";
-		String patronymic = "";
-		String gender = "";
-		int age = 0;
-		int vacantIndex = -1;
-		Student newStudent = null;
-		String[] options = { "male", "female" };
-
-		for (;;) {
-			try {
-				/* Getting first name */
-				firstName = JOptionPane.showInputDialog("Enter first name");
-				if (firstName == null) {
-					return;
-				}
-				/* Getting last name */
-				lastName = JOptionPane.showInputDialog("Enter last name");
-				if (lastName == null) {
-					return;
-				}
-				/* Getting patronymic */
-				patronymic = JOptionPane.showInputDialog("Enter patronymic");
-				if (patronymic == null) {
-					return;
-				}
-				/* Getting gender */
-				gender = JOptionPane.showOptionDialog(null, "Select gender", "Gender selection",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]) == 0
-								? options[0]
-								: options[1];
-				/* Getting age */
-				age = Integer.parseInt(JOptionPane.showInputDialog("Enter age"));
-				break;
-			} catch (NullPointerException e) {
-				JOptionPane.showMessageDialog(null, "Input aborted");
-				return;
-			} catch (NumberFormatException e) {
-				JOptionPane.showMessageDialog(null, "Invalid input format");
-				continue;
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid input format");
-			}
-		}
-		/* Saving results */
-		newStudent = new Student(firstName, lastName, patronymic, gender, age);
-		/* Inserting results into the group array */
-		for (int i = 0; i < this.studentGroup.length; i++) {
-			if (this.studentGroup[i] == null) {
-				vacantIndex = i;
-			}
-		}
-		if (vacantIndex == -1) {
-			throw new overflowException();
-		} else {
-			this.studentGroup[vacantIndex] = newStudent;
-		}
-	}
-
-	public void inputStudentScanner() throws overflowException {
+	public void inputStudent() throws overflowException {
 		String firstName = "";
 		String lastName = "";
 		String patronymic = "";
@@ -234,7 +139,7 @@ public class Group {
 			}
 		}
 		input.close();
-		
+
 		/* Saving results */
 		newStudent = new Student(firstName, lastName, patronymic, gender, age);
 		/* Inserting results into the group array */
@@ -248,5 +153,109 @@ public class Group {
 		} else {
 			this.studentGroup[vacantIndex] = newStudent;
 		}
+	}
+
+	public void sortGroup(String sortSubject, boolean ascending) {
+		Student temp;
+		boolean wasSwap = true;
+		switch (sortSubject) {
+		case "firstName":
+			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
+				wasSwap = false;
+				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
+					if (this.studentGroup[j].getFirstName().compareToIgnoreCase(this.studentGroup[j + 1].getFirstName()) > 0) {
+						temp = this.studentGroup[j];
+						this.studentGroup[j] = this.studentGroup[j + 1];
+						this.studentGroup[j + 1] = temp;
+						wasSwap = true;
+					}
+				}
+			}
+			break;
+		case "lastName":
+			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
+				wasSwap = false;
+				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
+					if (this.studentGroup[j].getLastName().compareToIgnoreCase(this.studentGroup[j + 1].getLastName()) > 0) {
+						temp = this.studentGroup[j];
+						this.studentGroup[j] = this.studentGroup[j + 1];
+						this.studentGroup[j + 1] = temp;
+						wasSwap = true;
+					}
+				}
+			}
+			break;
+		case "patronymic":
+			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
+				wasSwap = false;
+				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
+					if (this.studentGroup[j].getPatronymic().compareToIgnoreCase(this.studentGroup[j + 1].getPatronymic()) > 0) {
+						temp = this.studentGroup[j];
+						this.studentGroup[j] = this.studentGroup[j + 1];
+						this.studentGroup[j + 1] = temp;
+						wasSwap = true;
+					}
+				}
+			}
+			break;
+		case "age":
+			for (int i = 0; i < this.studentGroup.length; i++) {
+				for (int j = 1; j < (this.studentGroup.length - i); j++) {
+					if (this.studentGroup[j - 1].getAge() > this.studentGroup[j].getAge()) {
+						temp = this.studentGroup[j - 1];
+						this.studentGroup[j - 1] = this.studentGroup[j];
+						this.studentGroup[j] = temp;
+					}
+				}
+			}
+			break;
+		default:
+			System.out.println("Invalid input");
+		}
+	}
+
+	static void bubbleSort(int[] arr) {
+		int n = arr.length;
+		int temp = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 1; j < (n - i); j++) {
+				if (arr[j - 1] > arr[j]) {
+					// swap elements
+					temp = arr[j - 1];
+					arr[j - 1] = arr[j];
+					arr[j] = temp;
+				}
+
+			}
+		}
+	}
+
+	@Override
+	public String toString() {
+		String outputString = "studentGroup [";
+		ArrayList<String> nameArray = new ArrayList<String>();
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent != null) {
+				nameArray.add(currentStudent.getLastName());
+			}
+		}
+
+		String temp;
+		boolean wasSwap = true;
+		for (int i = 0; i < nameArray.size() - 1 && wasSwap; i++) {
+			wasSwap = false;
+			for (int j = 0; j < nameArray.size() - i - 1; j++) {
+				if (nameArray.get(j).compareToIgnoreCase(nameArray.get(j + 1)) > 0) {
+					temp = nameArray.get(j);
+					nameArray.set(j, nameArray.get(j + 1));
+					nameArray.set(j + 1, temp);
+					wasSwap = true;
+				}
+			}
+		}
+
+		outputString += String.join(", ", nameArray) + "]";
+
+		return outputString;
 	}
 }

@@ -21,12 +21,13 @@ public class Main {
 		}
 		System.out.println(myGroup);
 		
-		try {
-			myGroup.inputStudentScanner();
+		/*try {
+			myGroup.inputStudent();
 		} catch(overflowException e) {
 			System.out.println(e);
-		}
+		}*/
 		System.out.println(myGroup);
+		
 	}
 
 }
