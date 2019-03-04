@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Group myGroup = new Group();
-	
+
 		/* Populating student group */
 		try {
 			myGroup.addStudent(new Student("John", "Johnson", "John", "male", 23));
@@ -16,18 +16,20 @@ public class Main {
 			myGroup.addStudent(new Student("Jasmine", "Bond", "Bond", "female", 23));
 			myGroup.addStudent(new Student("Rebecca", "Welch", "Victoria", "female", 47));
 			myGroup.addStudent(new Student("Ian", "Hardacre", "George", "male", 49));
-		} catch(overflowException e) {
+		} catch (overflowException e) {
 			System.out.println(e);
 		}
-		System.out.println(myGroup);
-		
-		/*try {
-			myGroup.inputStudent();
-		} catch(overflowException e) {
-			System.out.println(e);
-		}*/
-		System.out.println(myGroup);
-		
+		//System.out.println(myGroup);
+
+		/*
+		 * try { myGroup.inputStudent(); } catch(overflowException e) {
+		 * System.out.println(e); }
+		 */
+		// myGroup.sortGroup("firstName", true);
+		// System.out.println(myGroup);
+		Student[] newRecruits;
+		newRecruits = myGroup.getRecruits();
+		System.out.println(newRecruits);
 	}
 
 }

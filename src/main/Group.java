@@ -1,13 +1,15 @@
 package main;
 
-//import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
+//import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JOptionPane;
 
-public class Group {
+public class Group implements MilCom {
 	private Student[] studentGroup = new Student[10];
 
 	public Group() {
@@ -156,104 +158,59 @@ public class Group {
 	}
 
 	public void sortGroup(String sortSubject, boolean ascending) {
-		Student temp;
-		boolean wasSwap = true;
+		System.out.println(this.studentGroup);
+		Comparator<Student> comparator;
 		switch (sortSubject) {
 		case "firstName":
-			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
-				wasSwap = false;
-				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
-					if (this.studentGroup[j].getFirstName().compareToIgnoreCase(this.studentGroup[j + 1].getFirstName()) > 0) {
-						temp = this.studentGroup[j];
-						this.studentGroup[j] = this.studentGroup[j + 1];
-						this.studentGroup[j + 1] = temp;
-						wasSwap = true;
-					}
-				}
-			}
+			comparator = Comparator.comparing(obj -> obj.getFirstName());
+			Arrays.sort(this.studentGroup, comparator);
 			break;
 		case "lastName":
-			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
-				wasSwap = false;
-				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
-					if (this.studentGroup[j].getLastName().compareToIgnoreCase(this.studentGroup[j + 1].getLastName()) > 0) {
-						temp = this.studentGroup[j];
-						this.studentGroup[j] = this.studentGroup[j + 1];
-						this.studentGroup[j + 1] = temp;
-						wasSwap = true;
-					}
-				}
-			}
+			comparator = Comparator.comparing(obj -> obj.getLastName());
+			Arrays.sort(this.studentGroup, comparator);
 			break;
 		case "patronymic":
-			for (int i = 0; i < this.studentGroup.length - 1 && wasSwap; i++) {
-				wasSwap = false;
-				for (int j = 0; j < this.studentGroup.length - i - 1; j++) {
-					if (this.studentGroup[j].getPatronymic().compareToIgnoreCase(this.studentGroup[j + 1].getPatronymic()) > 0) {
-						temp = this.studentGroup[j];
-						this.studentGroup[j] = this.studentGroup[j + 1];
-						this.studentGroup[j + 1] = temp;
-						wasSwap = true;
-					}
-				}
-			}
+			comparator = Comparator.comparing(obj -> obj.getPatronymic());
+			Arrays.sort(this.studentGroup, comparator);
 			break;
 		case "age":
-			for (int i = 0; i < this.studentGroup.length; i++) {
-				for (int j = 1; j < (this.studentGroup.length - i); j++) {
-					if (this.studentGroup[j - 1].getAge() > this.studentGroup[j].getAge()) {
-						temp = this.studentGroup[j - 1];
-						this.studentGroup[j - 1] = this.studentGroup[j];
-						this.studentGroup[j] = temp;
-					}
-				}
-			}
+			comparator = Comparator.comparing(obj -> obj.getAge());
+			Arrays.sort(this.studentGroup, comparator);
 			break;
 		default:
 			System.out.println("Invalid input");
 		}
 	}
 
-	static void bubbleSort(int[] arr) {
-		int n = arr.length;
-		int temp = 0;
-		for (int i = 0; i < n; i++) {
-			for (int j = 1; j < (n - i); j++) {
-				if (arr[j - 1] > arr[j]) {
-					// swap elements
-					temp = arr[j - 1];
-					arr[j - 1] = arr[j];
-					arr[j] = temp;
-				}
-
+	public Student[] getRecruits() {
+		Student[] recruits = new Student[10];
+		int tempAge;
+		String tempGender;
+		int counter = 0;
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent == null) {
+				continue;
+			}
+			tempAge = currentStudent.getAge();
+			tempGender = currentStudent.getGender();
+			if (tempAge >= 18 && tempGender == "male") {
+				recruits[counter] = currentStudent;
+				counter++;
 			}
 		}
+		return recruits;
 	}
 
 	@Override
 	public String toString() {
 		String outputString = "studentGroup [";
+		// this.sortGroup("lastName", true);
 		ArrayList<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(currentStudent.getLastName());
 			}
 		}
-
-		String temp;
-		boolean wasSwap = true;
-		for (int i = 0; i < nameArray.size() - 1 && wasSwap; i++) {
-			wasSwap = false;
-			for (int j = 0; j < nameArray.size() - i - 1; j++) {
-				if (nameArray.get(j).compareToIgnoreCase(nameArray.get(j + 1)) > 0) {
-					temp = nameArray.get(j);
-					nameArray.set(j, nameArray.get(j + 1));
-					nameArray.set(j + 1, temp);
-					wasSwap = true;
-				}
-			}
-		}
-
 		outputString += String.join(", ", nameArray) + "]";
 
 		return outputString;
