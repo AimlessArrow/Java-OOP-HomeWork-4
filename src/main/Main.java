@@ -16,6 +16,7 @@ public class Main {
 			myGroup.addStudent(new Student("Jasmine", "Bond", "Bond", "female", 23));
 			myGroup.addStudent(new Student("Rebecca", "Welch", "Victoria", "female", 47));
 			myGroup.addStudent(new Student("Ian", "Hardacre", "George", "male", 49));
+			myGroup.addStudent(new Student("John", "Malkovich", "Junior", "male", 51));
 		} catch (overflowException e) {
 			System.out.println(e);
 		}
