@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
-//import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.JOptionPane;
@@ -158,31 +157,86 @@ public class Group implements MilCom {
 	}
 
 	public void sortGroup(String sortSubject, boolean ascending) {
-		System.out.println(this.studentGroup);
 		Comparator<Student> comparator;
 		switch (sortSubject) {
 		case "firstName":
 			comparator = Comparator.comparing(obj -> obj.getFirstName());
-			Arrays.sort(this.studentGroup, comparator);
+			if (ascending == false) {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+			} else {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+			}
 			break;
 		case "lastName":
 			comparator = Comparator.comparing(obj -> obj.getLastName());
-			Arrays.sort(this.studentGroup, comparator);
+			if (ascending == false) {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+			} else {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+			}
 			break;
 		case "patronymic":
 			comparator = Comparator.comparing(obj -> obj.getPatronymic());
-			Arrays.sort(this.studentGroup, comparator);
+			if (ascending == false) {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+			} else {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+			}
 			break;
 		case "age":
 			comparator = Comparator.comparing(obj -> obj.getAge());
-			Arrays.sort(this.studentGroup, comparator);
+			if (ascending == false) {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+			} else {
+				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+			}
 			break;
 		default:
 			System.out.println("Invalid input");
 		}
 	}
+	
+	public void printGroup(String sortSubject) {
+		String outputString = "studentGroup [";
+		ArrayList<String> nameArray = new ArrayList<String>();
+		switch (sortSubject) {
+		case "firstName":
+			for (Student currentStudent : this.studentGroup) {
+				if (currentStudent != null) {
+					nameArray.add(currentStudent.getFirstName());
+				}
+			}
+			break;
+		case "lastName":
+			for (Student currentStudent : this.studentGroup) {
+				if (currentStudent != null) {
+					nameArray.add(currentStudent.getLastName());
+				}
+			}
+			break;
+		case "patronymic":
+			for (Student currentStudent : this.studentGroup) {
+				if (currentStudent != null) {
+					nameArray.add(currentStudent.getPatronymic());
+				}
+			}
+			break;
+		case "age":
+			for (Student currentStudent : this.studentGroup) {
+				if (currentStudent != null) {
+					nameArray.add(Integer.toString(currentStudent.getAge()));
+				}
+			}
+			break;
+		default:
+			System.out.println("Invalid input");
+		}
+		outputString += String.join(", ", nameArray) + "]";
+		System.out.println(outputString);
+	}
 
 	public Student[] getRecruits() {
+		System.out.println(this.studentGroup[0]);
 		Student[] recruits = new Student[10];
 		int tempAge;
 		String tempGender;
@@ -194,6 +248,10 @@ public class Group implements MilCom {
 			tempAge = currentStudent.getAge();
 			tempGender = currentStudent.getGender();
 			if (tempAge >= 18 && tempGender == "male") {
+				/* Deep copy of an object */
+				/*recruits[counter] = new Student(currentStudent.getFirstName(), 
+						currentStudent.getLastName(), currentStudent.getPatronymic(),
+						currentStudent.getGender(), currentStudent.getAge());*/
 				recruits[counter] = currentStudent;
 				counter++;
 			}
