@@ -122,6 +122,7 @@ public class Group implements MilCom {
 					gender = "female";
 					break;
 				default:
+					System.out.println("Wrong input. Try again.");
 					continue;
 				}
 				/* Getting age */
@@ -236,7 +237,6 @@ public class Group implements MilCom {
 	}
 
 	public Student[] getRecruits() {
-		System.out.println(this.studentGroup[0]);
 		Student[] recruits = new Student[10];
 		int tempAge;
 		String tempGender;
@@ -247,7 +247,7 @@ public class Group implements MilCom {
 			}
 			tempAge = currentStudent.getAge();
 			tempGender = currentStudent.getGender();
-			if (tempAge >= 18 && tempGender == "male") {
+			if (tempAge >= 18 && tempGender.equals("male")) {
 				/* Deep copy of an object */
 				/*recruits[counter] = new Student(currentStudent.getFirstName(), 
 						currentStudent.getLastName(), currentStudent.getPatronymic(),
