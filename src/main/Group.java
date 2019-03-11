@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import javax.swing.JOptionPane;
-
 public class Group implements MilCom {
 	private Student[] studentGroup = new Student[10];
 
@@ -130,14 +128,15 @@ public class Group implements MilCom {
 				age = input.nextInt();
 				break;
 			} catch (NullPointerException e) {
-				JOptionPane.showMessageDialog(null, "Input aborted");
+				System.out.println("Input aborted");
 				input.close();
 				return;
 			} catch (NumberFormatException e) {
-				JOptionPane.showMessageDialog(null, "Invalid input format");
+				System.out.println("Invalid input format");
 				continue;
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid input format");
+				continue;
 			}
 		}
 		input.close();
@@ -249,10 +248,9 @@ public class Group implements MilCom {
 			tempGender = currentStudent.getGender();
 			if (tempAge >= 18 && tempGender.equals("male")) {
 				/* Deep copy of an object */
-				/*recruits[counter] = new Student(currentStudent.getFirstName(), 
+				recruits[counter] = new Student(currentStudent.getFirstName(), 
 						currentStudent.getLastName(), currentStudent.getPatronymic(),
-						currentStudent.getGender(), currentStudent.getAge());*/
-				recruits[counter] = currentStudent;
+						currentStudent.getGender(), currentStudent.getAge());
 				counter++;
 			}
 		}
