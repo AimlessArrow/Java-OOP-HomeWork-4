@@ -74,58 +74,20 @@ public class Group implements MilCom {
 	}
 
 	public void inputStudent() throws overflowException {
-		String firstName = "";
-		String lastName = "";
-		String patronymic = "";
-		String gender = "";
+		/* First name, last name and patronymic */
+		String[] nameArray = new String[3]; 
+		String gender;
 		int age = 0;
-		int vacantIndex = -1;
 		Student newStudent = null;
 		Scanner input = new Scanner(System.in);
-		int genderInt = 0;
 
-		for (;;) {
+		while (true) {
 			try {
-				/* Getting first name */
-				System.out.println("Enter first name");
-				firstName = input.next();
-				if (firstName == "Exit") {
-					input.close();
-					return;
-				}
-				/* Getting last name */
-				System.out.println("Enter last name");
-				lastName = input.next();
-				if (lastName == "Exit") {
-					input.close();
-					return;
-				}
-				/* Getting patronymic */
-				System.out.println("Enter patronymic");
-				patronymic = input.next();
-				if (patronymic == "Exit") {
-					input.close();
-					return;
-				}
-				/* Getting gender */
-				System.out.println("Choose gender: ");
-				System.out.println("(1) male");
-				System.out.println("(2) female");
-				genderInt = input.nextInt();
-				switch (genderInt) {
-				case 1:
-					gender = "male";
-					break;
-				case 2:
-					gender = "female";
-					break;
-				default:
-					System.out.println("Wrong input. Try again.");
-					continue;
-				}
-				/* Getting age */
-				System.out.println("Enter age");
-				age = input.nextInt();
+				nameArray[0] = this.inputName(input, "Enter First Name");
+				nameArray[1] = this.inputName(input, "Enter Last Name");
+				nameArray[2] = this.inputName(input, "Enter Patronymic");
+				gender = this.inputGender(input);
+				age = this.inputAge(input);
 				break;
 			} catch (NullPointerException e) {
 				System.out.println("Input aborted");
@@ -142,94 +104,174 @@ public class Group implements MilCom {
 		input.close();
 
 		/* Saving results */
-		newStudent = new Student(firstName, lastName, patronymic, gender, age);
+		newStudent = new Student(nameArray[0], nameArray[1], nameArray[2], gender, age);
 		/* Inserting results into the group array */
-		for (int i = 0; i < this.studentGroup.length; i++) {
-			if (this.studentGroup[i] == null) {
-				vacantIndex = i;
-			}
+		this.addStudent(newStudent);
+	}
+
+	private String inputName(Scanner input, String message) {
+		/* Getting first, last name and patronymic */
+		String name;
+		if (message == null) {
+			message = "Enter your name";
 		}
-		if (vacantIndex == -1) {
-			throw new overflowException();
+		System.out.println(message);
+		name = input.next();
+		if (name == "Exit") {
+			input.close();
+			return null;
 		} else {
-			this.studentGroup[vacantIndex] = newStudent;
+			return name;
 		}
 	}
 
+	private String inputGender(Scanner input) {
+		/* Getting gender */
+		int genderInt = 0;
+		System.out.println("Choose gender: ");
+		System.out.println("(1) male");
+		System.out.println("(2) female");
+		genderInt = input.nextInt();
+		switch (genderInt) {
+		case 1:
+			return "male";
+		case 2:
+			return "female";
+		default:
+			System.out.println("Wrong input. Try again.");
+			return null;
+		}
+	}
+
+	private int inputAge(Scanner input) {
+		/* Getting age */
+		System.out.println("Enter age");
+		int age;
+		age = input.nextInt();
+		return age;
+	}
+
 	public void sortGroup(String sortSubject, boolean ascending) {
-		Comparator<Student> comparator;
 		switch (sortSubject) {
 		case "firstName":
-			comparator = Comparator.comparing(obj -> obj.getFirstName());
-			if (ascending == false) {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
-			} else {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
-			}
+			this.sortByFirstName(ascending);
 			break;
 		case "lastName":
-			comparator = Comparator.comparing(obj -> obj.getLastName());
-			if (ascending == false) {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
-			} else {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
-			}
+			this.sortByLastName(ascending);
 			break;
 		case "patronymic":
-			comparator = Comparator.comparing(obj -> obj.getPatronymic());
-			if (ascending == false) {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
-			} else {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
-			}
+			this.sortByPatronymic(ascending);
 			break;
 		case "age":
-			comparator = Comparator.comparing(obj -> obj.getAge());
-			if (ascending == false) {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
-			} else {
-				Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
-			}
+			this.sortByAge(ascending);
 			break;
 		default:
 			System.out.println("Invalid input");
 		}
 	}
-	
+
+	private void sortByFirstName(boolean ascending) {
+		Comparator<Student> comparator;
+		comparator = Comparator.comparing(obj -> obj.getFirstName());
+		if (ascending == false) {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+		} else {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+		}
+	}
+
+	private void sortByLastName(boolean ascending) {
+		Comparator<Student> comparator;
+		comparator = Comparator.comparing(obj -> obj.getLastName());
+		if (ascending == false) {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+		} else {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+		}
+	}
+
+	private void sortByPatronymic(boolean ascending) {
+		Comparator<Student> comparator;
+		comparator = Comparator.comparing(obj -> obj.getPatronymic());
+		if (ascending == false) {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+		} else {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+		}
+	}
+
+	private void sortByAge(boolean ascending) {
+		Comparator<Student> comparator;
+		comparator = Comparator.comparing(obj -> obj.getAge());
+		if (ascending == false) {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator.reversed()));
+		} else {
+			Arrays.sort(this.studentGroup, Comparator.nullsLast(comparator));
+		}
+	}
+
 	public void printGroup(String sortSubject) {
-		String outputString = "studentGroup [";
-		ArrayList<String> nameArray = new ArrayList<String>();
 		switch (sortSubject) {
 		case "firstName":
-			for (Student currentStudent : this.studentGroup) {
-				if (currentStudent != null) {
-					nameArray.add(currentStudent.getFirstName());
-				}
-			}
+			this.printFirstNames();
 			break;
 		case "lastName":
-			for (Student currentStudent : this.studentGroup) {
-				if (currentStudent != null) {
-					nameArray.add(currentStudent.getLastName());
-				}
-			}
+			this.printLastNames();
 			break;
 		case "patronymic":
-			for (Student currentStudent : this.studentGroup) {
-				if (currentStudent != null) {
-					nameArray.add(currentStudent.getPatronymic());
-				}
-			}
+			this.printPatronymics();
 			break;
 		case "age":
-			for (Student currentStudent : this.studentGroup) {
-				if (currentStudent != null) {
-					nameArray.add(Integer.toString(currentStudent.getAge()));
-				}
-			}
+			this.printAge();
 			break;
 		default:
 			System.out.println("Invalid input");
+		}
+	}
+
+	private void printFirstNames() {
+		String outputString = "studentGroup [";
+		ArrayList nameArray = new ArrayList();
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent != null) {
+				nameArray.add(currentStudent.getFirstName());
+			}
+		}
+		outputString += String.join(", ", nameArray) + "]";
+		System.out.println(outputString);
+	}
+
+	private void printLastNames() {
+		String outputString = "studentGroup [";
+		ArrayList nameArray = new ArrayList();
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent != null) {
+				nameArray.add(currentStudent.getLastName());
+			}
+		}
+		outputString += String.join(", ", nameArray) + "]";
+		System.out.println(outputString);
+	}
+
+	private void printPatronymics() {
+		String outputString = "studentGroup [";
+		ArrayList nameArray = new ArrayList();
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent != null) {
+				nameArray.add(currentStudent.getPatronymic());
+			}
+		}
+		outputString += String.join(", ", nameArray) + "]";
+		System.out.println(outputString);
+	}
+
+	private void printAge() {
+		String outputString = "studentGroup [";
+		ArrayList nameArray = new ArrayList();
+		for (Student currentStudent : this.studentGroup) {
+			if (currentStudent != null) {
+				nameArray.add(Integer.toString(currentStudent.getAge()));
+			}
 		}
 		outputString += String.join(", ", nameArray) + "]";
 		System.out.println(outputString);
@@ -248,9 +290,8 @@ public class Group implements MilCom {
 			tempGender = currentStudent.getGender();
 			if (tempAge >= 18 && tempGender.equals("male")) {
 				/* Deep copy of an object */
-				recruits[counter] = new Student(currentStudent.getFirstName(), 
-						currentStudent.getLastName(), currentStudent.getPatronymic(),
-						currentStudent.getGender(), currentStudent.getAge());
+				recruits[counter] = new Student(currentStudent.getFirstName(), currentStudent.getLastName(),
+						currentStudent.getPatronymic(), currentStudent.getGender(), currentStudent.getAge());
 				counter++;
 			}
 		}
