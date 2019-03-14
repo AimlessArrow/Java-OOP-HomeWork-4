@@ -1,6 +1,7 @@
 package main;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,19 +94,15 @@ public class Group implements MilCom {
 				System.out.println("Input aborted");
 				input.close();
 				return;
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException | InputMismatchException e) {
 				System.out.println("Invalid input format");
 				continue;
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid input format");
-				continue;
-			}
+			} 
 		}
 		input.close();
 
 		/* Saving results */
 		newStudent = new Student(nameArray[0], nameArray[1], nameArray[2], gender, age);
-		/* Inserting results into the group array */
 		this.addStudent(newStudent);
 	}
 
@@ -231,7 +228,7 @@ public class Group implements MilCom {
 
 	private void printFirstNames() {
 		String outputString = "studentGroup [";
-		ArrayList nameArray = new ArrayList();
+		List<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(currentStudent.getFirstName());
@@ -243,7 +240,7 @@ public class Group implements MilCom {
 
 	private void printLastNames() {
 		String outputString = "studentGroup [";
-		ArrayList nameArray = new ArrayList();
+		List<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(currentStudent.getLastName());
@@ -255,7 +252,7 @@ public class Group implements MilCom {
 
 	private void printPatronymics() {
 		String outputString = "studentGroup [";
-		ArrayList nameArray = new ArrayList();
+		List<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(currentStudent.getPatronymic());
@@ -267,7 +264,7 @@ public class Group implements MilCom {
 
 	private void printAge() {
 		String outputString = "studentGroup [";
-		ArrayList nameArray = new ArrayList();
+		List<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(Integer.toString(currentStudent.getAge()));
