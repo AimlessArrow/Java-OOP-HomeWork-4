@@ -299,7 +299,7 @@ public class Group implements MilCom {
 	public String toString() {
 		String outputString = "studentGroup [";
 		// this.sortGroup("lastName", true);
-		ArrayList<String> nameArray = new ArrayList<String>();
+		List<String> nameArray = new ArrayList<String>();
 		for (Student currentStudent : this.studentGroup) {
 			if (currentStudent != null) {
 				nameArray.add(currentStudent.getLastName());
